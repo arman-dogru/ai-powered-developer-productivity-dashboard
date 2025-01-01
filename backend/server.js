@@ -1,46 +1,48 @@
+// server.js
 require('dotenv').config();
 const express = require('express');
-const mongoose = require('mongoose');
 const passport = require('passport');
 const session = require('express-session');
 const cors = require('cors');
 
-const connectDB = require('./config/db');
-require('./passport'); // This will run our passport.js code
+require('./passport'); // Your passport config
 const authRoutes = require('./routes/auth');
+const connectDB = require('./config/db');
 
 const app = express();
-
-// Connect to MongoDB
 connectDB();
 
-// Middleware
 app.use(
   cors({
-    origin: 'http://localhost:3000',
+    origin: 'http://localhost:3000', // IMPORTANT: match your React port
     credentials: true,
   })
 );
-app.use(express.json());
 
-// -------------------- IMPORTANT CHANGE HERE --------------------
+// Sessions
 app.use(
   session({
-    secret: process.env.SESSION_SECRET,
+    secret: process.env.SESSION_SECRET || 'someRandomSecret',
     resave: false,
     saveUninitialized: false,
     cookie: {
-      maxAge: 24 * 60 * 60 * 1000,
+      httpOnly: true,
+      secure: false,   // false in development over HTTP
+      sameSite: 'lax', // 'lax' is usually simpler for local dev
+      maxAge: 24 * 60 * 60 * 1000
     },
   })
 );
 
-// Initialize passport
 app.use(passport.initialize());
 app.use(passport.session());
 
-// Routes
+app.use(express.json());
+
+// Use auth routes
 app.use('/auth', authRoutes);
 
 const PORT = process.env.PORT || 4000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, () => {
+  console.log(`Backend server running on port ${PORT}`);
+});

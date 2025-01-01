@@ -10,7 +10,9 @@
     "path-browserify": "^1.0.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-scripts": "5.0.1"
+    "react-router-dom": "^7.1.1",
+    "react-scripts": "5.0.1",
+    "react-syntax-highlighter": "^15.6.1"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -25,6 +27,7 @@
       "react-app/jest"
     ]
   },
+  "proxy": "http://localhost:4000",
   "browserslist": {
     "production": [
       ">0.2%",

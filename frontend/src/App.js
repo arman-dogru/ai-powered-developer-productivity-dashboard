@@ -1,61 +1,80 @@
-import React, { useEffect, useState } from 'react';
+// src/App.js
+import React, { useEffect, useContext, useState } from 'react';
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import axios from 'axios';
+import Profile from './Profile';
+import RepoDetail from './RepoDetail';
+import { UserContext } from './UserContext';
 
 function App() {
-  const [user, setUser] = useState(null);
+  const { user, setUser } = useContext(UserContext);
+  const [repos, setRepos] = useState([]);
 
-  // Fetch the current user, if any
   useEffect(() => {
+    // GET /auth/user with credentials
     axios
-.get(process.env.REACT_APP_GITHUB_USER_URL, { withCredentials: true })
+      .get('http://localhost:4000/auth/user', { withCredentials: true })
       .then((res) => {
         setUser(res.data);
+        fetchRepositories();
       })
       .catch((err) => {
-        console.log('No logged in user or error:', err.response?.data);
+        console.log('No logged-in user or error:', err.response?.data);
       });
-  }, []);
+  }, [setUser]);
 
-  const handleLogin = () => {
-    window.location.href = process.env.REACT_APP_GITHUB_LOGIN_URL;
-  };
-
-  const handleLogout = () => {
+  const fetchRepositories = () => {
     axios
-      .get(process.env.REACT_APP_GITHUB_LOGOUT_URL, { withCredentials: true })
-      .then(() => {
-        setUser(null);
+      .get('http://localhost:4000/auth/repos', { withCredentials: true })
+      .then((res) => {
+        setRepos(res.data);
       })
       .catch((err) => {
-        console.error(err);
+        console.error('Error fetching repositories:', err.response?.data);
       });
   };
 
   if (!user) {
-    // No user logged in, show login button
     return (
       <div style={{ margin: '20px' }}>
         <h1>GitHub OAuth Example</h1>
-        <button onClick={handleLogin}>Login with GitHub</button>
+        <button onClick={() => (window.location.href = 'http://localhost:4000/auth/github')}>
+          Login with GitHub
+        </button>
       </div>
     );
   }
 
-  // If user is logged in, display user data
+  const handleLogout = () => {
+    axios
+      .get('http://localhost:4000/auth/logout', { withCredentials: true })
+      .then(() => setUser(null))
+      .catch((err) => console.error(err));
+  };
+
   return (
-    <div style={{ margin: '20px' }}>
-      <h1>Welcome, {user.username}!</h1>
-      <p>User ID: {user._id}</p>
-      <p>GitHub ID: {user.githubId}</p>
-      <p>Display Name: {user.displayName}</p>
-      <p>GitHub Profile: {user.profileUrl}</p>
-      <div>
-        {user.photos && user.photos.map((url, index) => (
-          <img key={index} src={url} alt="avatar" style={{ width: '50px' }} />
-        ))}
+    <Router>
+      <div style={{ margin: '20px' }}>
+        <h1>Welcome, {user.username}!</h1>
+        <p>GitHub ID: {user.githubId}</p>
+        <button onClick={handleLogout}>Logout</button>
+
+        <h2>Your Repositories</h2>
+        <ul>
+          {repos.map((repo) => (
+            <li key={repo.id}>
+              <Link to={`/repo/${user.username}/${repo.name}`}>{repo.name}</Link>
+            </li>
+          ))}
+        </ul>
       </div>
-      <button onClick={handleLogout}>Logout</button>
-    </div>
+
+      <Routes>
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/repo/:username/:repoName" element={<RepoDetail />} />
+        <Route path="/" element={<div>Welcome to the GitHub OAuth App</div>} />
+      </Routes>
+    </Router>
   );
 }
 

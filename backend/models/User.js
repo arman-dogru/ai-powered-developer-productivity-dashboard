@@ -1,3 +1,4 @@
+// backend/models/User.js
 const mongoose = require('mongoose');
 
 const UserSchema = new mongoose.Schema({
@@ -10,6 +11,9 @@ const UserSchema = new mongoose.Schema({
   displayName: String,
   profileUrl: String,
   photos: [String],
+
+  // Add this field so the token is saved to MongoDB
+  githubToken: String,
 });
 
 module.exports = mongoose.model('User', UserSchema);
