@@ -1,4 +1,3 @@
-// src/App.js
 import React, { useEffect, useContext, useState } from 'react';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import axios from 'axios';
@@ -6,12 +5,14 @@ import Profile from './Profile';
 import RepoDetail from './RepoDetail';
 import { UserContext } from './UserContext';
 
+// 1) Import your dedicated Login component
+import Login from './Login';
+
 function App() {
   const { user, setUser } = useContext(UserContext);
   const [repos, setRepos] = useState([]);
 
   useEffect(() => {
-    // GET /auth/user with credentials
     axios
       .get('http://localhost:4000/auth/user', { withCredentials: true })
       .then((res) => {
@@ -34,15 +35,10 @@ function App() {
       });
   };
 
+  // 2) Instead of returning a <div> with the Login button inline,
+  //    just return <Login /> if the user is not logged in.
   if (!user) {
-    return (
-      <div style={{ margin: '20px' }}>
-        <h1>GitHub OAuth Example</h1>
-        <button onClick={() => (window.location.href = 'http://localhost:4000/auth/github')}>
-          Login with GitHub
-        </button>
-      </div>
-    );
+    return <Login />;
   }
 
   const handleLogout = () => {
@@ -54,7 +50,7 @@ function App() {
 
   return (
     <Router>
-      <div style={{ margin: '20px' }}>
+      <div style={{ margin: '2px' }}>
         <h1>Welcome, {user.username}!</h1>
         <p>GitHub ID: {user.githubId}</p>
         <button onClick={handleLogout}>Logout</button>
