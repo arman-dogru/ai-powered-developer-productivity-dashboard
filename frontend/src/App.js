@@ -5,6 +5,7 @@ import Profile from './Pages/Profile/Profile';
 import Repository from './Pages/Repository/Repository';
 import { UserContext } from './UserContext';
 import Login from './Pages/Login/Login';
+import CodeViewer from './Pages/CodeViewer/CodeViewer';
 
 function App() {
   const { user, setUser } = useContext(UserContext);
@@ -69,6 +70,12 @@ function App() {
       <Routes>
         <Route path="/profile" element={<Profile />} />
         <Route path="/repo/:username/:repoName" element={<Repository />} />
+
+        <Route
+          path="/repo/:username/:repoName/blob/*"
+          element={<CodeViewer />}
+        />
+
         <Route path="/" element={<div>Welcome to the GitHub OAuth App</div>} />
       </Routes>
     </Router>

@@ -19,134 +19,115 @@ cd my-github-oauth-app
 
 ### Backend Setup
 
-1. Navigate to the 
+1. Navigate to the backend directory:
 
-backend
-
- directory:
-
-    ```bash
-    cd backend
-    ```
+```bash
+cd backend
+```
 
 2. Install the dependencies:
 
-    ```bash
-    npm install
-    ```
+```bash
+npm install
+```
 
-3. Create a 
+3. Create a .env file in the backend directory and add the following environment variables:
 
-.env
-
- file in the 
-
-backend
-
- directory and add the following environment variables:
-
-    ```env
-    # BACKEND
-    PORT=4000
-    MONGO_URI=your_mongodb_connection_string
-    GITHUB_CLIENT_ID=your_github_client_id
-    GITHUB_CLIENT_SECRET=your_github_client_secret
-    GITHUB_CALLBACK_URL=http://localhost:4000/auth/github/callback
-    SESSION_SECRET=someRandomSecret
-    ```
+```env
+# BACKEND
+PORT=4000
+MONGO_URI=your_mongodb_connection_string
+GITHUB_CLIENT_ID=your_github_client_id
+GITHUB_CLIENT_SECRET=your_github_client_secret
+GITHUB_CALLBACK_URL=http://localhost:4000/auth/github/callback
+SESSION_SECRET=someRandomSecret
+```
 
 4. Start the backend server:
 
-    ```bash
-    npm run dev
-    ```
+```bash
+npm run dev
+```
 
 ### Frontend Setup
 
-1. Navigate to the 
+1. Navigate to the frontend directory:
 
-frontend
-
- directory:
-
-    ```bash
-    cd ../frontend
-    ```
+```bash
+cd ../frontend
+```
 
 2. Install the dependencies:
 
-    ```bash
-    npm install
-    ```
+```bash
+npm install
+```
 
-3. Create a 
+3. Create a .env
 
-.env
-
- file in the 
-
-frontend
-
- directory and add the following environment variables:
-
-    ```env
-    # FRONT END
-    PORT=3000
-    REACT_APP_BACKEND_API_URL=http://localhost:4000
-    REACT_APP_GITHUB_LOGIN_URL=http://localhost:4000/auth/github
-    REACT_APP_GITHUB_LOGOUT_URL=http://localhost:4000/auth/logout
-    REACT_APP_GITHUB_USER_URL=http://localhost:4000/auth/user
-    ```
-
-4. Start the frontend development server:
-
-    ```bash
-    npm start
-    ```
-
-### Running the Application
-
-1. Open your browser and navigate to `http://localhost:3000`.
-2. Click the "Login with GitHub" button to authenticate with GitHub.
-3. After successful authentication, you will be redirected to the profile page where you can see your GitHub repositories.
+```env
+# FRONT END
+PORT=3000
+REACT_APP_BACKEND_API_URL=http://localhost:4000
+REACT_APP_GITHUB_LOGIN_URL=http://localhost:4000/auth/github
+REACT_APP_GITHUB_LOGOUT_URL=http://localhost:4000/auth/logout
+REACT_APP_GITHUB_USER_URL=http://localhost:4000/auth/user
+```
 
 ### Project Structure
 
 ```
 my-github-oauth-app/
-├── backend/
-│   ├── config/
+├── README.md
+├── backend
+│   ├── config
 │   │   └── db.js
-│   ├── models/
+│   ├── models
 │   │   └── User.js
-│   ├── routes/
-│   │   └── auth.js
-│   ├── .env
+│   ├── package-lock.json
 │   ├── package.json
 │   ├── passport.js
+│   ├── routes
+│   │   └── auth.js
 │   └── server.js
-├── frontend/
-│   ├── public/
-│   │   ├── favicon.ico
-│   │   ├── index.html
-│   │   ├── logo192.png
-│   │   ├── logo512.png
-│   │   ├── manifest.json
-│   │   └── robots.txt
-│   ├── src/
-│   │   ├── App.css
-│   │   ├── App.js
-│   │   ├── FileTree.js
-│   │   ├── Profile.js
-│   │   ├── RepoDetail.js
-│   │   ├── UserContext.js
-│   │   ├── index.css
-│   │   ├── index.js
-│   ├── .env
-│   ├── package.json
-│   └── README.md
-├── .gitignore
-└── README.md
+└── frontend
+    ├── package-lock.json
+    ├── package.json
+    ├── public
+    │   ├── favicon.ico
+    │   ├── index.html
+    │   ├── logo192.png
+    │   ├── logo512.png
+    │   ├── manifest.json
+    │   └── robots.txt
+    └── src
+        ├── App.css
+        ├── App.js
+        ├── Assets
+        │   └── github-logo.png
+        ├── FileTree.js
+        ├── Pages
+        │   ├── AI
+        │   │   ├── AI.css
+        │   │   └── AI.js
+        │   ├── Dashboards
+        │   │   ├── dashboard.css
+        │   │   └── dashboard.js
+        │   ├── Login
+        │   │   ├── Login.js
+        │   │   └── Login.module.css
+        │   ├── CodeViewer
+        │   │   ├── CodeViewer.js
+        │   ├── Profile
+        │   │   ├── Profile.js
+        │   │   └── profile.css
+        │   └── Repository
+        │       ├── Repository.css
+        │       └── Repository.js
+        ├── UserContext.js
+        ├── index.css
+        ├── index.js
+        └── logo.svg
 ```
 
 ### Troubleshooting
