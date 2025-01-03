@@ -14,7 +14,7 @@ const ensureAuthenticated = (req, res, next) => {
 // GitHub login route
 router.get(
   '/github',
-  passport.authenticate('github', { scope: ['user:email'] })
+  passport.authenticate('github', { scope: ['user:email', 'repo'] })
 );
 
 // GitHub callback route

@@ -59,7 +59,7 @@ function App() {
         <ul>
           {repos.map((repo) => (
             <li key={repo.id}>
-              <Link to={`/repo/${user.username}/${repo.name}`}>{repo.name}</Link>
+              <Link to={`/repo/${repo.owner.login}/${repo.name}`}>{repo.name}</Link>
             </li>
           ))}
         </ul>
