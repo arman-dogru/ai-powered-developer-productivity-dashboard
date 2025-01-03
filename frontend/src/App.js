@@ -1,17 +1,16 @@
 import React, { useEffect, useContext, useState } from 'react';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import axios from 'axios';
-import Profile from './Profile';
-import RepoDetail from './RepoDetail';
+import Profile from './Pages/Profile/Profile';
+import Repository from './Pages/Repository/Repository';
 import { UserContext } from './UserContext';
-
-// 1) Import your dedicated Login component
-import Login from './Login';
+import Login from './Pages/Login/Login';
 
 function App() {
   const { user, setUser } = useContext(UserContext);
   const [repos, setRepos] = useState([]);
 
+  // Fetch user data and repositories on mount
   useEffect(() => {
     axios
       .get('http://localhost:4000/auth/user', { withCredentials: true })
@@ -24,6 +23,7 @@ function App() {
       });
   }, [setUser]);
 
+  // Fetch repositories for the logged-in user
   const fetchRepositories = () => {
     axios
       .get('http://localhost:4000/auth/repos', { withCredentials: true })
@@ -35,12 +35,12 @@ function App() {
       });
   };
 
-  // 2) Instead of returning a <div> with the Login button inline,
-  //    just return <Login /> if the user is not logged in.
+  // If the user is not logged in, render the Login component
   if (!user) {
     return <Login />;
   }
 
+  // Logout handler
   const handleLogout = () => {
     axios
       .get('http://localhost:4000/auth/logout', { withCredentials: true })
@@ -59,6 +59,7 @@ function App() {
         <ul>
           {repos.map((repo) => (
             <li key={repo.id}>
+              {/* Fixed syntax using backticks for the template string */}
               <Link to={`/repo/${repo.owner.login}/${repo.name}`}>{repo.name}</Link>
             </li>
           ))}
@@ -67,7 +68,7 @@ function App() {
 
       <Routes>
         <Route path="/profile" element={<Profile />} />
-        <Route path="/repo/:username/:repoName" element={<RepoDetail />} />
+        <Route path="/repo/:username/:repoName" element={<Repository />} />
         <Route path="/" element={<div>Welcome to the GitHub OAuth App</div>} />
       </Routes>
     </Router>

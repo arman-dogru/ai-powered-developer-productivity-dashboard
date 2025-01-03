@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-import FileTree from './FileTree';
-import { UserContext } from './UserContext'; // Import the context
+import FileTree from '../../FileTree';
+import { UserContext } from '../../UserContext'; // Import the context
 
 function RepoDetail() {
   const { user } = useContext(UserContext); // Access user from context

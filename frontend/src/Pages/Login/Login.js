@@ -1,6 +1,6 @@
 import React from 'react';
-import './Login.css';
-import GitHubLogo from './Assets/github-logo.png'; // Correct import path
+import styles from './Login.module.css';
+import GitHubLogo from '../../Assets/github-logo.png'; // Correct import path
 
 function Login() {
     const handleLogin = () => {
@@ -9,26 +9,26 @@ function Login() {
     };
 
     return (
-        <div className="login-container">
+        <div className={styles.loginContainer}>
             {/* Left Section: Heading and Button */}
-            <div className="left-section">
+            <div className={styles.leftSection}>
                 <h1>Welcome to Velox AI!</h1>
                 <button onClick={handleLogin}>
                     {/* Use the imported GitHubLogo */}
                     <img 
                         src={GitHubLogo} 
                         alt="GitHub Logo"
-                        className="github-logo"
+                        className={styles.githubLogo}
                     />
                     Login with GitHub
                 </button>
             </div>
 
             {/* Middle Vertical Line */}
-            <div className="middle-line"></div>
+            <div className={styles.middleLine}></div>
 
             {/* Right Section: Image */}
-            <div className="right-section">
+            <div className={styles.rightSection}>
                 <img 
                     src="https://i.pinimg.com/736x/1b/8a/f0/1b8af06023f0facf2ae14b43943acfed.jpg" 
                     alt="Example" 
