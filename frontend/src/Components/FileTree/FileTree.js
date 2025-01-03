@@ -1,15 +1,14 @@
-// FileTree.js
+// src/Components/FileTree/FileTree.js
 
 import React, { useState, useContext } from 'react';
 import axios from 'axios';
-import { UserContext } from './UserContext';
-import { Link, useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
+import { UserContext } from '../../UserContext';
 
-const FileTree = ({ item }) => {
+function FileTree({ item }) {
   const { user } = useContext(UserContext);
   const [expanded, setExpanded] = useState(false);
   const [children, setChildren] = useState([]);
-  // We need to know the current repo owner and name from params to construct the route
   const { username, repoName } = useParams();
 
   const toggleExpand = async () => {
@@ -43,20 +42,19 @@ const FileTree = ({ item }) => {
         )}
       </li>
     );
-  } else {
-    // If it's a file, link to the CodeViewer page
-    // We'll craft something like: /repo/:username/:repoName/blob/path/to/filename
-    // 'path' is relative to root, which GitHub includes in item.path
-    const fileViewerPath = `/repo/${username}/${repoName}/blob/${item.path}`;
-
-    return (
-      <li>
-        <Link to={fileViewerPath} style={{ textDecoration: 'none', color: 'blue' }}>
-          {item.name}
-        </Link>
-      </li>
-    );
   }
-};
+
+  // If it's a file, link to the CodeViewer page
+  // We'll craft something like: /repositories/:username/:repoName/blob/path/to/file
+  const fileViewerPath = `/repositories/${username}/${repoName}/blob/${item.path}`;
+
+  return (
+    <li>
+      <Link to={fileViewerPath} style={{ textDecoration: 'none', color: 'blue' }}>
+        {item.name}
+      </Link>
+    </li>
+  );
+}
 
 export default FileTree;
