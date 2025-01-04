@@ -1,4 +1,3 @@
-// routes/auth.js
 const passport = require('passport');
 const axios = require('axios');
 const express = require('express');
@@ -25,7 +24,7 @@ router.get(
     // Successful authentication
     console.log('User after GitHub auth:', req.user);
     // Redirect to React app
-    res.redirect('http://localhost:3000/profile');
+    res.redirect('http://localhost:3000/repositories');
   }
 );
 

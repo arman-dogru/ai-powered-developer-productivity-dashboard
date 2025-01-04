@@ -1,5 +1,3 @@
-// src/App.js
-
 import React, { useEffect, useContext } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import axios from 'axios';

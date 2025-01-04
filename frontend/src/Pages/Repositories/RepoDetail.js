@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { UserContext } from '../../UserContext';
 import FileTree from '../../Components/FileTree/FileTree';
-import Dashboard from '../../Components/Dashboard/Dashboard'; // Not actually used yet
+import Dashboard from '../../Components/Dashboard/Dashboard';
 
 function RepoDetail() {
   const { user } = useContext(UserContext);
@@ -60,8 +60,8 @@ function RepoDetail() {
       <h1>{repo.name}</h1>
       <p>{repo.description}</p>
 
-      {/* Example usage of a Dashboard component (not fully implemented yet) */}
-      <Dashboard />
+      {/* Pass repo details to Dashboard component */}
+      <Dashboard repo={repo} />
 
       <h2>Contributors</h2>
       <ul>
