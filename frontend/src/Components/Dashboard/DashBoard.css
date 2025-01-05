@@ -1,0 +1,44 @@
+/* Dashboard.css */
+
+/* Main container for the dashboard */
+.dashboard-container {
+    margin-bottom: 20px;
+    margin-left: 400px;
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Title styling */
+  .dashboard-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #333;
+  }
+  
+  /* Paragraph styling for repository details */
+  .dashboard-detail {
+    margin-bottom: 10px;
+    font-size: 16px;
+    color: #555;
+  }
+  
+  /* Strong text for labels */
+  .dashboard-detail strong {
+    color: #333;
+  }
+  
+  /* Repository URL link styling */
+  .dashboard-link {
+    text-decoration: none;
+    color: rgb(26, 26, 198);
+    font-weight: bold;
+  }
+  
+  .dashboard-link:hover {
+    text-decoration: underline;
+  }
+  
