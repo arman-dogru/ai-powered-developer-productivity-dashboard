@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { UserContext } from '../../UserContext';
+import './Repositories.css'; // Import the CSS file
 
 function Repositories() {
   const { user } = useContext(UserContext);
@@ -29,12 +30,15 @@ function Repositories() {
   }
 
   return (
-    <div style={{ margin: '20px' }}>
-      <h1>Repositories of {user.username}</h1>
-      <ul>
+    <div className="repositories-container">
+      <h1 className="repositories-title">Repositories of {user.username}</h1>
+      <ul className="repositories-list">
         {repos.map((repo) => (
           <li key={repo.id}>
-            <Link to={`/repositories/${repo.owner.login}/${repo.name}`}>
+            <Link
+              to={`/repositories/${repo.owner.login}/${repo.name}`}
+              className="repositories-link"
+            >
               {repo.name}
             </Link>
           </li>
