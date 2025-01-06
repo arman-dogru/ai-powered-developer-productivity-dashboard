@@ -12,6 +12,8 @@ import Repositories from './Pages/Repositories/Repositories';
 import RepoDetail from './Pages/Repositories/RepoDetail';
 import CodeViewer from './Pages/CodeViewer/CodeViewer';
 
+import GeminiChat from './Pages/AI/GeminiChat'; // import your new Gemini page
+
 function App() {
   const { user, setUser } = useContext(UserContext);
 
@@ -36,7 +38,7 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<Repositories />} />
-        <Route path="/ai" element={<AI />} />
+        <Route path="/ai" element={<GeminiChat />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/repositories" element={<Repositories />} />
 
