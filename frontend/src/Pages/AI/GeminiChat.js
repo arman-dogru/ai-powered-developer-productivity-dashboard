@@ -4,6 +4,7 @@ import axios from 'axios';
 import { UserContext } from '../../UserContext';
 import ChatHistory from '../../Components/ChatHistory/ChatHistory';
 import ChatInput from '../../Components/ChatInput/ChatInput';
+import { fetchFileTree } from '../../Utils/aiUtils'; // Import the helper
 
 // Import our new functions:
 import { decide, action } from '../../Utils/aiUtils'; 
@@ -77,7 +78,9 @@ function GeminiChat() {
       userMessage: text,
       fetchRepoRawData,
       fetchFileContent,
+      fetchFileTree, // Pass the helper
       selectedRepo,
+      user, // Pass user context for GitHub token
     });
 
     // 5) Add final assistant text to the messages

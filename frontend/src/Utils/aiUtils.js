@@ -1,34 +1,23 @@
 // aiUtils.js
 import { GoogleGenerativeAI } from '@google/generative-ai';
+import axios from 'axios';
 
 const getGeminiModel = () => {
   const apiKey = process.env.REACT_APP_GEMINI_API_KEY;
   const genAI = new GoogleGenerativeAI(apiKey);
-  // Use whichever Gemini model version you need, e.g. 'gemini-1.5-flash'
   return genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
 };
 
-/**
- * DECIDE: 
- * We ask Gemini, "What do you want to do with the user's prompt?" 
- * 
- * We want a simplified text format like:
- *  - "NONE"
- *  - "NEED_REPO_OVERVIEW"
- *  - "NEED_A_FILE|path/to/file|in|owner/repo"
- *
- * so we can parse it easily.
- */
 export const decide = async (conversationContext, userMessage) => {
   try {
     const model = getGeminiModel();
 
-    // Example prompt that tells Gemini to decide
+    // Decision prompt
     const prompt = `
       You are a helpful assistant. The user has asked something. Decide what action you need:
       
       1) "NEED_REPO_OVERVIEW" if you want the entire repository's raw API JSON. 
-         Format: NEED_REPO_OVERVIEW|owner/repo  (i.e. the full name).
+         Format: NEED_REPO_OVERVIEW|owner/repo
       
       2) "NEED_A_FILE" if you want the content of a specific file. 
          Format: NEED_A_FILE|path/to/file|in|owner/repo
@@ -36,13 +25,11 @@ export const decide = async (conversationContext, userMessage) => {
       3) "NONE" if you have enough info and can answer directly.
 
       Return EXACTLY one line with your decision (no JSON, no extra words).
-      
+
       EXAMPLES:
       - "NONE"
       - "NEED_REPO_OVERVIEW|octocat/Hello-World"
       - "NEED_A_FILE|src/index.js|in|octocat/Hello-World"
-      
-      DO NOT write any additional text.
 
       CONVERSATION CONTEXT:
       ${conversationContext}
@@ -53,9 +40,7 @@ export const decide = async (conversationContext, userMessage) => {
 
     const result = await model.generateContent(prompt);
     const line = result.response.text().trim();
-
-    // e.g. "NONE" or "NEED_REPO_OVERVIEW|owner/repo" or "NEED_A_FILE|someFile.js|in|owner/repo"
-    return line;
+    return line; // e.g. "NONE" or "NEED_REPO_OVERVIEW|owner/repo" etc.
   } catch (error) {
     console.error('Error in decide():', error);
     return 'NONE'; // fallback
@@ -64,89 +49,87 @@ export const decide = async (conversationContext, userMessage) => {
 
 /**
  * ACTION:
- * Given the result of DECIDE (which may say NEED_REPO_OVERVIEW or NEED_A_FILE or NONE),
- * we either:
+ * We either:
  *   - fetch repo overview from GitHub
  *   - fetch a file from GitHub
  *   - or do nothing special
- * Then we pass everything (context + user prompt + fetched data) to generateAIResponse for the final answer.
+ * Then pass everything to generateAIResponse for the final answer.
  */
-// aiUtils.js (excerpt)
-
 export const action = async ({
-  decisionString,
-  conversationContext,
-  userMessage,
-  fetchRepoRawData,
-  fetchFileContent,
-  selectedRepo,
-}) => {
-  let finalAssistantText = '';
-  let updatedContext = conversationContext;
-
-  let actionType = '';
-  let repoFullName = '';
-  let filePath = '';
-
-  if (decisionString.startsWith('NONE')) {
-    actionType = 'NONE';
-  } else if (decisionString.startsWith('NEED_REPO_OVERVIEW')) {
-    actionType = 'NEED_REPO_OVERVIEW';
-    const parts = decisionString.split('|');
-    repoFullName = parts[1] || '';
-  } else if (decisionString.startsWith('NEED_A_FILE')) {
-    actionType = 'NEED_A_FILE';
-    const parts = decisionString.split('|');
-    filePath = parts[1] || '';
-    // parts[2] should be "in"
-    repoFullName = parts[3] || '';
-  }
-
-  // *** If the LLM gave us a placeholder or no name, fallback to selectedRepo
-  if (
-    (actionType === 'NEED_REPO_OVERVIEW' || actionType === 'NEED_A_FILE') &&
-    (!repoFullName || repoFullName === 'owner/repo')
-  ) {
-    if (selectedRepo) {
-      console.log('LLM gave a placeholder, using the user’s selectedRepo:', selectedRepo);
-      repoFullName = selectedRepo;
-    } else {
-      finalAssistantText = 'No valid repository found. Please select a real repo from the dropdown.';
+    decisionString,
+    conversationContext,
+    userMessage,
+    fetchRepoRawData,
+    fetchFileContent,
+    fetchFileTree,
+    selectedRepo,
+    user,
+  }) => {
+    let finalAssistantText = '';
+    let updatedContext = conversationContext;
+  
+    let actionType = '';
+    let filePath = '';
+  
+    if (decisionString.startsWith('NONE')) {
+      actionType = 'NONE';
+    } else if (decisionString.startsWith('NEED_REPO_OVERVIEW')) {
+      actionType = 'NEED_REPO_OVERVIEW';
+    } else if (decisionString.startsWith('NEED_A_FILE')) {
+      actionType = 'NEED_A_FILE';
+      const parts = decisionString.split('|');
+      filePath = parts[1] || '';
+    }
+  
+    if ((actionType === 'NEED_REPO_OVERVIEW' || actionType === 'NEED_A_FILE') && !selectedRepo) {
+      finalAssistantText =
+        'No valid repository selected. Please choose a repo from the dropdown.';
       return { finalAssistantText, updatedContext };
     }
-  }
-
-  try {
-    if (actionType === 'NEED_REPO_OVERVIEW') {
-      const rawData = await fetchRepoRawData(repoFullName);
-      updatedContext += `\n[System: Raw GitHub JSON for ${repoFullName} below]\n\`\`\`json\n${JSON.stringify(rawData, null, 2)}\n\`\`\``;
-      finalAssistantText = await generateAIResponse(updatedContext, userMessage);
-    } else if (actionType === 'NEED_A_FILE') {
-      const content = await fetchFileContent(repoFullName, filePath);
-      updatedContext += `\n[System: Content of ${filePath} below]\n\`\`\`\n${content}\n\`\`\``;
-      finalAssistantText = await generateAIResponse(updatedContext, userMessage);
-    } else {
-      // NONE
-      finalAssistantText = await generateAIResponse(updatedContext, userMessage);
+  
+    try {
+      let fileTree = null;
+  
+      // Fetch the file tree to provide additional repository context
+      if (actionType === 'NEED_REPO_OVERVIEW' || actionType === 'NEED_A_FILE') {
+        fileTree = await fetchFileTree(selectedRepo, user);
+        updatedContext += `\n[System: File tree for ${selectedRepo} below]\n\`\`\`json\n${JSON.stringify(
+          fileTree,
+          null,
+          2
+        )}\n\`\`\``;
+      }
+  
+      if (actionType === 'NEED_REPO_OVERVIEW') {
+        const rawData = await fetchRepoRawData(selectedRepo);
+        updatedContext += `\n[System: Raw GitHub JSON for ${selectedRepo} below]\n\`\`\`json\n${JSON.stringify(
+          rawData,
+          null,
+          2
+        )}\n\`\`\``;
+  
+        finalAssistantText = await generateAIResponse(updatedContext, userMessage);
+      } else if (actionType === 'NEED_A_FILE') {
+        const content = await fetchFileContent(selectedRepo, filePath);
+        updatedContext += `\n[System: Content of ${filePath} below]\n\`\`\`\n${content}\n\`\`\``;
+  
+        finalAssistantText = await generateAIResponse(updatedContext, userMessage);
+      } else {
+        // NONE
+        finalAssistantText = await generateAIResponse(updatedContext, userMessage);
+      }
+    } catch (err) {
+      console.error('Error in action():', err);
+      finalAssistantText = `An error occurred: ${err.message}`;
     }
-  } catch (err) {
-    console.error('Error in action():', err);
-    finalAssistantText = `An error occurred: ${err.message}`;
-  }
-
-  updatedContext += `\nAssistant: ${finalAssistantText}`;
-  return { finalAssistantText, updatedContext };
-};
-
+  
+    updatedContext += `\nAssistant: ${finalAssistantText}`;
+    return { finalAssistantText, updatedContext };
+  };  
 
 /**
  * generateAIResponse:
- * A simple function that calls Gemini to produce the final answer in Markdown.
- * 
- * We don't return JSON; we just return a string that is the final
- * user-facing text. 
- * 
- * The user wants: "Your response should be formatted in markdown..."
+ * Calls Gemini to produce final Markdown output.
  */
 export const generateAIResponse = async (conversationContext, userMessage) => {
   try {
@@ -157,7 +140,7 @@ export const generateAIResponse = async (conversationContext, userMessage) => {
       to answer the user's question in Markdown. 
       You do NOT need to request new data now; you have it or not.
 
-      Please return your full answer in Markdown format (with headings, code blocks, etc. if needed).
+      Please return your full answer in Markdown format.
 
       CONVERSATION CONTEXT:
       ${conversationContext}
@@ -169,9 +152,47 @@ export const generateAIResponse = async (conversationContext, userMessage) => {
     `;
 
     const result = await model.generateContent(prompt);
-    return result.response.text(); // final string (Markdown)
+    return result.response.text();
   } catch (error) {
     console.error('Error generating AI response:', error);
     return 'Sorry, something went wrong generating the response.';
   }
 };
+
+// Helper to fetch the full file tree of a repository
+export const fetchFileTree = async (repoFullName, user) => {
+    const [owner, repo] = repoFullName.split('/');
+    const config = { headers: { Authorization: `token ${user.githubToken}` } };
+  
+    const fetchDirectory = async (url) => {
+      const res = await axios.get(url, config);
+      return res.data.map((item) => ({
+        path: item.path,
+        type: item.type, // "file" or "dir"
+        url: item.type === 'dir' ? item.url : null,
+      }));
+    };
+  
+    const buildTree = async (url) => {
+      const nodes = await fetchDirectory(url);
+      const tree = [];
+  
+      for (const node of nodes) {
+        if (node.type === 'dir') {
+          const children = await buildTree(node.url);
+          tree.push({ ...node, children });
+        } else {
+          tree.push(node);
+        }
+      }
+  
+      return tree;
+    };
+  
+    // Start with the root directory of the repository
+    const rootUrl = `https://api.github.com/repos/${owner}/${repo}/contents`;
+    const fileTree = await buildTree(rootUrl);
+  
+    return fileTree; // Returns the entire tree structure
+  };
+  
