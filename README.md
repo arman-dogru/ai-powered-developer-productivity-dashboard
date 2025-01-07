@@ -90,44 +90,65 @@ my-github-oauth-app/
 │   ├── routes
 │   │   └── auth.js
 │   └── server.js
-└── frontend
+├── frontend
+│   ├── package-lock.json
+│   ├── package.json
+│   ├── public
+│   │   ├── favicon.ico
+│   │   ├── index.html
+│   │   ├── logo192.png
+│   │   ├── logo512.png
+│   │   ├── manifest.json
+│   │   └── robots.txt
+│   └── src
+│       ├── App.css
+│       ├── App.js
+│       ├── Assets
+│       │   └── github-logo.png
+│       ├── Components
+│       │   ├── ChatHistory
+│       │   │   └── ChatHistory.js
+│       │   ├── ChatInput
+│       │   │   └── ChatInput.js
+│       │   ├── Dashboard
+│       │   │   ├── DashBoard.css
+│       │   │   └── Dashboard.js
+│       │   ├── FileTree
+│       │   │   └── FileTree.js
+│       │   └── Navbar
+│       │       ├── Navbar.css
+│       │       └── Navbar.js
+│       ├── Pages
+│       │   ├── AI
+│       │   │   ├── AI.css
+│       │   │   ├── AI.js
+│       │   │   └── GeminiChat.js
+│       │   ├── CodeViewer
+│       │   │   └── CodeViewer.js
+│       │   ├── Login
+│       │   │   ├── Login.js
+│       │   │   └── Login.module.css
+│       │   ├── Profile
+│       │   │   ├── Profile.js
+│       │   │   └── profile.css
+│       │   └── Repositories
+│       │       ├── RepoDetail.css
+│       │       ├── RepoDetail.js
+│       │       ├── Repositories.css
+│       │       └── Repositories.js
+│       ├── UserContext.js
+│       ├── Utils
+│       │   └── aiUtils.js
+│       ├── index.css
+│       ├── index.js
+│       └── logo.svg
+└── webhook
+    ├── db.js
+    ├── models
+    │   └── User.js
     ├── package-lock.json
     ├── package.json
-    ├── public
-    │   ├── favicon.ico
-    │   ├── index.html
-    │   ├── logo192.png
-    │   ├── logo512.png
-    │   ├── manifest.json
-    │   └── robots.txt
-    └── src
-        ├── App.css
-        ├── App.js
-        ├── Assets
-        │   └── github-logo.png
-        ├── FileTree.js
-        ├── Pages
-        │   ├── AI
-        │   │   ├── AI.css
-        │   │   └── AI.js
-        │   ├── Dashboards
-        │   │   ├── dashboard.css
-        │   │   └── dashboard.js
-        │   ├── Login
-        │   │   ├── Login.js
-        │   │   └── Login.module.css
-        │   ├── CodeViewer
-        │   │   ├── CodeViewer.js
-        │   ├── Profile
-        │   │   ├── Profile.js
-        │   │   └── profile.css
-        │   └── Repository
-        │       ├── Repository.css
-        │       └── Repository.js
-        ├── UserContext.js
-        ├── index.css
-        ├── index.js
-        └── logo.svg
+    └── server.js
 ```
 
 ### Troubleshooting
