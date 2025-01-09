@@ -1,4 +1,4 @@
-// GeminiChat.js
+// frontend/src/Pages/AI/GeminiChat.js
 import React, { useState, useContext, useEffect } from 'react';
 import axios from 'axios';
 import { UserContext } from '../../UserContext';

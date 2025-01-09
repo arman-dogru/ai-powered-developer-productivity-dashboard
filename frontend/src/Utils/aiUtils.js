@@ -1,4 +1,4 @@
-// aiUtils.js
+// src/Utils/aiUtils.js
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import axios from 'axios';
 

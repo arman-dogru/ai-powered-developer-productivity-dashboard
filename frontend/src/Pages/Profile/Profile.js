@@ -1,3 +1,4 @@
+// frontend/src/Pages/Profile/Profile.js
 import React, { useContext } from 'react';
 import { UserContext } from '../../UserContext';
 
