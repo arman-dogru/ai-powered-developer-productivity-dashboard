@@ -1,4 +1,4 @@
-// passport.js
+// backend/passport.js
 const passport = require('passport');
 const GitHubStrategy = require('passport-github2').Strategy;
 const User = require('./models/User');

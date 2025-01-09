@@ -1,5 +1,4 @@
-// src/Components/FileTree/FileTree.js
-
+// frontend/src/Component/FileTree/FileTree.js
 import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { useParams, Link } from 'react-router-dom';
