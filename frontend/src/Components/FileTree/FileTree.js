@@ -1,8 +1,7 @@
-// frontend/src/Component/FileTree/FileTree.js
 import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { useParams, Link } from 'react-router-dom';
-import { UserContext } from '../../UserContext';
+import { UserContext } from '../../Utils/UserContext';
 
 function FileTree({ item }) {
   const { user } = useContext(UserContext);

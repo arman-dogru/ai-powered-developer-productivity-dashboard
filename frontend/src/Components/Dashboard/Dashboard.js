@@ -1,4 +1,3 @@
-// frontend/src/Component/Dashboard/Dashboard.js
 import React from 'react';
 import './DashBoard.css'; // Import the CSS file
 

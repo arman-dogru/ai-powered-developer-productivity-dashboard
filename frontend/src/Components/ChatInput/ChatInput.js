@@ -1,4 +1,3 @@
-// frontend/src/Components/ChatInput/ChatInput.js
 import React, { useState } from 'react';
 
 function ChatInput({ sendMessage }) {

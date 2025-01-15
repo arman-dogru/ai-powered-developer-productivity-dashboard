@@ -1,10 +1,10 @@
-// frontend/src/Pages/Repositories/RepoDetail.js
 import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-import { UserContext } from '../../UserContext';
+import { UserContext } from '../../Utils/UserContext';
 import FileTree from '../../Components/FileTree/FileTree';
 import Dashboard from '../../Components/Dashboard/Dashboard';
+import Chat from '../../Components/Chat/Chat'; // Import the Chat component
 import './RepoDetail.css'; // Import the CSS file
 
 function RepoDetail() {
@@ -59,14 +59,10 @@ function RepoDetail() {
 
   return (
     <div className="repo-detail-container">
-      <h1 className="repo-detail-title">{repo.name}</h1>
-      <p className="repo-detail-description">{repo.description}</p>
-
-      {/* Pass repo details to Dashboard component */}
-      <Dashboard repo={repo} />
-
+      <Dashboard repo={repo} /> {/* Dashboard */}
       <div className="repo-section">
-        <h2 className="repo-section-title">Contributors</h2>
+        <h2 className="repo-section-title">Repository Details</h2>
+        <p className="repo-detail-description">{repo.description}</p>
         <ul className="repo-list">
           {contributors.map((c) => (
             <li key={c.id}>
@@ -82,7 +78,6 @@ function RepoDetail() {
           ))}
         </ul>
       </div>
-
       <div className="repo-section">
         <h2 className="repo-section-title">File Structure</h2>
         <ul className="repo-list">
@@ -90,6 +85,9 @@ function RepoDetail() {
             <FileTree key={item.sha} item={item} />
           ))}
         </ul>
+      </div>
+      <div className="chat-section">
+        <Chat repo={repo} /> {/* Chat */}
       </div>
     </div>
   );

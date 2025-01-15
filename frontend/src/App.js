@@ -1,19 +1,17 @@
-// frontend/src/App.js
 import React, { useEffect, useContext } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import axios from 'axios';
 
-import { UserContext } from './UserContext';
-import Login from './Pages/Login/Login';
-import Navbar from './Components/Navbar/Navbar';
+import { UserContext } from './Utils/UserContext';
+import Login from './Components/Login/Login';
+import SideNavbar from './Components/SideNavbar/SideNavbar';
 
-import Profile from './Pages/Profile/Profile';
-import AI from './Pages/AI/AI';
-import Repositories from './Pages/Repositories/Repositories';
-import RepoDetail from './Pages/Repositories/RepoDetail';
-import CodeViewer from './Pages/CodeViewer/CodeViewer';
+import Profile from './Components/Profile/Profile';
+import RepositoryList from './Components/Repository/RepositoryList';
+import RepoDetail from './Components/Repository/RepoDetail';
 
-import GeminiChat from './Pages/AI/GeminiChat'; // import your new Gemini page
+
+import GeminiChat from './Components/Chat/Chat'; // import your new Gemini page
 
 function App() {
   const { user, setUser } = useContext(UserContext);
@@ -36,22 +34,19 @@ function App() {
   // If logged in, show Navbar + routes
   return (
     <Router>
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<Repositories />} />
-        <Route path="/ai" element={<GeminiChat />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/repositories" element={<Repositories />} />
-
-        {/* Single repository detail */}
-        <Route path="/repositories/:username/:repoName" element={<RepoDetail />} />
-
-        {/* Code viewer */}
-        <Route path="/repositories/:username/:repoName/blob/*" element={<CodeViewer />} />
-
-        {/* Fallback if needed */}
-        <Route path="*" element={<div>404 Not Found</div>} />
-      </Routes>
+      <div style={{ display: 'flex' }}>
+        <SideNavbar />
+        <div style={{ flex: 1, padding: '20px' }}>
+          <Routes>
+            <Route path="/" element={<RepositoryList />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/repositories" element={<RepositoryList />} />
+            <Route path="/repositories/:username/:repoName" element={<RepoDetail />} />
+            {/* Fallback if needed */}
+            <Route path="*" element={<div>404 Not Found</div>} />
+          </Routes>
+        </div>
+      </div>
     </Router>
   );
 }

@@ -1,8 +1,7 @@
-// frontend/src/Pages/CodeViewer/CodeViewer.js
 import React, { useEffect, useState, useContext } from 'react';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { UserContext } from '../../UserContext';
+import { UserContext } from '../../Utils/UserContext';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { coy } from 'react-syntax-highlighter/dist/esm/styles/prism';
 

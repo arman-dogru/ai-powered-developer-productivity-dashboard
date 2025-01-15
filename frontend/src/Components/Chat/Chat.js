@@ -1,42 +1,18 @@
-// frontend/src/Pages/AI/GeminiChat.js
 import React, { useState, useContext, useEffect } from 'react';
 import axios from 'axios';
-import { UserContext } from '../../UserContext';
-import ChatHistory from '../../Components/ChatHistory/ChatHistory';
-import ChatInput from '../../Components/ChatInput/ChatInput';
+import { UserContext } from '../../Utils/UserContext';
+import ChatHistory from '../ChatHistory/ChatHistory';
+import ChatInput from '../ChatInput/ChatInput';
 import { fetchFileTree } from '../../Utils/aiUtils'; // Import the helper
 
 // Import our new functions:
 import { decide, action } from '../../Utils/aiUtils'; 
 // fetchRepoRawData, fetchFileContent we define in this file.
 
-function GeminiChat() {
+function Chat({ repo }) {
   const { user } = useContext(UserContext);
   const [messages, setMessages] = useState([]);
   const [conversationContext, setConversationContext] = useState('');
-
-  // We load the user's repo list for the dropdown
-  const [repos, setRepos] = useState([]);
-  const [selectedRepo, setSelectedRepo] = useState('');
-
-  useEffect(() => {
-    if (!user?.githubToken) return;
-    const fetchRepositories = async () => {
-      try {
-        const res = await axios.get(
-          `${process.env.REACT_APP_BACKEND_API_URL}/auth/repos`,
-          {
-            headers: { Authorization: `token ${user.githubToken}` },
-            withCredentials: true,
-          }
-        );
-        setRepos(res.data);
-      } catch (error) {
-        console.error('Error fetching repositories:', error);
-      }
-    };
-    fetchRepositories();
-  }, [user]);
 
   // Helper to fetch raw GitHub repo details JSON
   const fetchRepoRawData = async (repoFullName) => {
@@ -79,7 +55,7 @@ function GeminiChat() {
       fetchRepoRawData,
       fetchFileContent,
       fetchFileTree, // Pass the helper
-      selectedRepo,
+      selectedRepo: repo.full_name, // Use the passed repo prop
       user, // Pass user context for GitHub token
     });
 
@@ -94,24 +70,10 @@ function GeminiChat() {
     <div style={{ maxWidth: '800px', margin: '0 auto', padding: '10px' }}>
       <h2>Gemini AI Chat</h2>
 
-      {/* The user picks a default repo from the dropdown, stored in selectedRepo */}
-      <select
-        value={selectedRepo}
-        onChange={(e) => setSelectedRepo(e.target.value)}
-        style={{ marginBottom: '10px' }}
-      >
-        <option value="">--Select a Repository--</option>
-        {repos.map((repo) => (
-          <option key={repo.id} value={repo.full_name}>
-            {repo.full_name}
-          </option>
-        ))}
-      </select>
-
       <ChatHistory messages={messages} />
       <ChatInput sendMessage={sendMessage} />
     </div>
   );
 }
 
-export default GeminiChat;
+export default Chat;

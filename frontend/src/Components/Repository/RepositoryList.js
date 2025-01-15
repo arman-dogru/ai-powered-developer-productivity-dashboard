@@ -1,16 +1,15 @@
-// frontend/src/Pages/Repositories/Repositories.js
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import { UserContext } from '../../UserContext';
-import './Repositories.css'; // Import the CSS file
+import { UserContext } from '../../Utils/UserContext';
+import './RepositoryList.css';
 
-function Repositories() {
+function RepositoryList() {
   const { user } = useContext(UserContext);
   const [repos, setRepos] = useState([]);
 
   useEffect(() => {
-    if (!user) return; // Wait until user is loaded
+    if (!user) return;
 
     const fetchRepositories = async () => {
       try {
@@ -26,15 +25,15 @@ function Repositories() {
     fetchRepositories();
   }, [user]);
 
-  if (!user) {
-    return <div>Loading user data...</div>;
+  if (!repos.length) {
+    return <div>Loading repositories...</div>;
   }
 
   return (
     <div className="repositories-container">
-      <h1 className="repositories-title">Repositories of {user.username}</h1>
+      <h1 className="repositories-title">Top Repositories</h1>
       <ul className="repositories-list">
-        {repos.map((repo) => (
+        {repos.slice(0, 3).map((repo) => (
           <li key={repo.id}>
             <Link
               to={`/repositories/${repo.owner.login}/${repo.name}`}
@@ -49,4 +48,4 @@ function Repositories() {
   );
 }
 
-export default Repositories;
+export default RepositoryList;

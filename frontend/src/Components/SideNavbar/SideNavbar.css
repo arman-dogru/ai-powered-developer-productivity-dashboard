@@ -1,0 +1,71 @@
+/* Navbar.css */
+
+.navbar {
+    display: flex;
+    flex-direction: column; /* Make it vertical */
+    justify-content: space-between; /* Space between top items and profile */
+    width: 250px; /* Fixed width */
+    background-color: #f4f4f4; /* Light background */
+    padding: 20px; /* Add padding for spacing */
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Optional shadow for depth */
+  }
+
+.nav-link:hover {
+  background-color: #e0e0e0;
+}
+
+.nav-profile {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-top: 1px solid #ddd; /* Divider */
+  margin-top: auto; /* Push profile to the bottom */
+}
+
+.profile-name {
+  margin-left: 10px;
+  font-weight: bold;
+}
+.nav-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: black;
+  padding: 5px;
+  display: block;
+}
+
+.repo-name-box {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 5px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #fff;
+  margin-bottom: 5px;
+}
+
+.file-tree {
+  list-style: none;
+  padding-left: 10px; /* Reduced indentation */
+}
+
+.file-tree li {
+  margin: 5px 0;
+}
+
+.profile-box {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 5px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #fff;
+  margin-bottom: 5px;
+}
