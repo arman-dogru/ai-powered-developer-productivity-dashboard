@@ -1,162 +1,114 @@
-# GitHub OAuth App
+# Developer Performance Tracker
 
-This is a full-stack application that uses GitHub OAuth for authentication. The backend is built with Node.js, Express, and MongoDB, while the frontend is built with React.
+## Overview
 
-## Prerequisites
+Developer Performance Tracker is a full-stack tool designed to analyze and enhance developer productivity using Large Language Model (LLM) reasoning. Our system identifies high-performing ("10x") developers and automates pull request (PR) reviews. Future updates will incorporate machine learning-based predictions to further optimize developer workflows.
 
-- Node.js (v14 or higher)
-- npm (v6 or higher)
-- MongoDB (local or Atlas)
+## Features
+
+- **LLM-Powered Developer Analysis**: Identifies high-performing developers based on coding patterns and contributions.
+- **Automated PR Reviews**: Uses AI to review pull requests, providing insightful feedback and recommendations.
+- **Performance Metrics Dashboard**: Visualizes key productivity indicators for teams and individuals.
+- **ML-Based Predictions (Upcoming)**: Predicts developer efficiency and potential bottlenecks in projects.
+
+## Tech Stack
+
+- **Backend**: Node.js, Express, MongoDB
+- **Frontend**: React.js
+- **Authentication**: GitHub OAuth
+- **AI Processing**: OpenAI GPT / LLM models
+- **Infrastructure**: Docker, Kubernetes (Planned), GitHub Actions
 
 ## Getting Started
 
-### Clone the Repository
+### Prerequisites
+- Node.js (v16 or higher)
+- npm (v8 or higher)
+- MongoDB (local or Atlas)
 
+### Installation
+
+#### Clone the Repository
 ```bash
-git clone https://github.com/your-username/my-github-oauth-app.git
-cd my-github-oauth-app
+git clone https://github.com/your-username/dev-performance-tracker.git
+cd dev-performance-tracker
 ```
 
-### Backend Setup
-
+#### Backend Setup
 1. Navigate to the backend directory:
-
-```bash
-cd backend
-```
-
-2. Install the dependencies:
-
-```bash
-npm install
-```
-
-3. Create a .env file in the backend directory and add the following environment variables:
-
-```env
-# BACKEND
-PORT=4000
-MONGO_URI=your_mongodb_connection_string
-GITHUB_CLIENT_ID=your_github_client_id
-GITHUB_CLIENT_SECRET=your_github_client_secret
-GITHUB_CALLBACK_URL=http://localhost:4000/auth/github/callback
-SESSION_SECRET=someRandomSecret
-```
-
+   ```bash
+   cd backend
+   ```
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Configure environment variables in `.env`:
+   ```
+   PORT=4000
+   MONGO_URI=your_mongodb_connection_string
+   GITHUB_CLIENT_ID=your_github_client_id
+   GITHUB_CLIENT_SECRET=your_github_client_secret
+   GITHUB_CALLBACK_URL=http://localhost:4000/auth/github/callback
+   SESSION_SECRET=someRandomSecret
+   ```
 4. Start the backend server:
+   ```bash
+   npm run dev
+   ```
 
-```bash
-npm run dev
-```
-
-### Frontend Setup
-
+#### Frontend Setup
 1. Navigate to the frontend directory:
+   ```bash
+   cd ../frontend
+   ```
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Configure environment variables in `.env`:
+   ```
+   PORT=3000
+   REACT_APP_BACKEND_API_URL=http://localhost:4000
+   REACT_APP_GITHUB_LOGIN_URL=http://localhost:4000/auth/github
+   REACT_APP_GITHUB_USER_URL=http://localhost:4000/auth/user
+   ```
+4. Start the frontend server:
+   ```bash
+   npm start
+   ```
 
-```bash
-cd ../frontend
-```
+## Usage
 
-2. Install the dependencies:
+### Running Locally
+1. Ensure MongoDB is running locally or configure MongoDB Atlas.
+2. Start the backend server (`npm run dev` in `backend/`).
+3. Start the frontend (`npm start` in `frontend/`).
 
-```bash
-npm install
-```
+### Automated PR Reviews
+1. Configure your GitHub repository webhook to point to:
+   ```
+   http://your-server-url/github-webhook
+   ```
+2. The system will analyze and provide AI-generated feedback for new PRs.
 
-3. Create a .env
+## Troubleshooting
 
-```env
-# FRONT END
-PORT=3000
-REACT_APP_BACKEND_API_URL=http://localhost:4000
-REACT_APP_GITHUB_LOGIN_URL=http://localhost:4000/auth/github
-REACT_APP_GITHUB_LOGOUT_URL=http://localhost:4000/auth/logout
-REACT_APP_GITHUB_USER_URL=http://localhost:4000/auth/user
-```
+- **MongoDB Connection Error**: Verify your MongoDB URI and ensure the database is running.
+- **GitHub OAuth Issues**: Check your GitHub client credentials and callback URL settings.
+- **CORS Issues**: Ensure backend CORS settings allow requests from the frontend URL.
 
-### Project Structure
+## Roadmap
+- ✅ LLM-Powered PR Reviews
+- ✅ Developer Performance Insights
+- 🔄 ML-Based Developer Efficiency Predictions
+- 🔄 Team Productivity Heatmaps
+- 🔄 Kubernetes Deployment Support
 
-```
-my-github-oauth-app/
-├── README.md
-├── backend
-│   ├── config
-│   │   └── db.js
-│   ├── models
-│   │   └── User.js
-│   ├── package-lock.json
-│   ├── package.json
-│   ├── passport.js
-│   ├── routes
-│   │   └── auth.js
-│   └── server.js
-├── frontend
-│   ├── package-lock.json
-│   ├── package.json
-│   ├── public
-│   │   ├── favicon.ico
-│   │   ├── index.html
-│   │   ├── logo192.png
-│   │   ├── logo512.png
-│   │   ├── manifest.json
-│   │   └── robots.txt
-│   └── src
-│       ├── App.css
-│       ├── App.js
-│       ├── Assets
-│       │   └── github-logo.png
-│       ├── Components
-│       │   ├── ChatHistory
-│       │   │   └── ChatHistory.js
-│       │   ├── ChatInput
-│       │   │   └── ChatInput.js
-│       │   ├── Dashboard
-│       │   │   ├── DashBoard.css
-│       │   │   └── Dashboard.js
-│       │   ├── FileTree
-│       │   │   └── FileTree.js
-│       │   └── Navbar
-│       │       ├── Navbar.css
-│       │       └── Navbar.js
-│       ├── Pages
-│       │   ├── AI
-│       │   │   ├── AI.css
-│       │   │   ├── AI.js
-│       │   │   └── GeminiChat.js
-│       │   ├── CodeViewer
-│       │   │   └── CodeViewer.js
-│       │   ├── Login
-│       │   │   ├── Login.js
-│       │   │   └── Login.module.css
-│       │   ├── Profile
-│       │   │   ├── Profile.js
-│       │   │   └── profile.css
-│       │   └── Repositories
-│       │       ├── RepoDetail.css
-│       │       ├── RepoDetail.js
-│       │       ├── Repositories.css
-│       │       └── Repositories.js
-│       ├── UserContext.js
-│       ├── Utils
-│       │   └── aiUtils.js
-│       ├── index.css
-│       ├── index.js
-│       └── logo.svg
-└── webhook
-    ├── db.js
-    ├── models
-    │   └── User.js
-    ├── package-lock.json
-    ├── package.json
-    └── server.js
-```
-
-### Troubleshooting
-
-- **MongoDB Connection Error**: Ensure that your MongoDB URI is correct and that your MongoDB server is running.
-- **GitHub OAuth Error**: Ensure that your GitHub OAuth app is correctly configured with the correct client ID, client secret, and callback URL.
-- **CORS Issues**: Ensure that the backend CORS configuration allows requests from the frontend URL.
-
-### License
-
-This project is licensed under the MIT License.
+## Contributing
+We welcome contributions from the community! If you'd like to contribute, please follow these steps:
+1. Fork the repository.
+2. Create a new branch (`git checkout -b feature-branch`).
+3. Make your changes and commit them (`git commit -m 'Add some feature'`).
+4. Push to the branch (`git push origin feature-branch`).
+5. Open a pull request.

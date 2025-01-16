@@ -9,7 +9,7 @@ import SideNavbar from './Components/SideNavbar/SideNavbar';
 import Profile from './Components/Profile/Profile';
 import RepositoryList from './Components/Repository/RepositoryList';
 import RepoDetail from './Components/Repository/RepoDetail';
-
+import CodeViewer from './Components/CodeViewer/CodeViewer'; // Import CodeViewer
 
 import GeminiChat from './Components/Chat/Chat'; // import your new Gemini page
 
@@ -42,6 +42,7 @@ function App() {
             <Route path="/profile" element={<Profile />} />
             <Route path="/repositories" element={<RepositoryList />} />
             <Route path="/repositories/:username/:repoName" element={<RepoDetail />} />
+            <Route path="/repositories/:username/:repoName/blob/*" element={<CodeViewer />} /> {/* Add this route */}
             {/* Fallback if needed */}
             <Route path="*" element={<div>404 Not Found</div>} />
           </Routes>

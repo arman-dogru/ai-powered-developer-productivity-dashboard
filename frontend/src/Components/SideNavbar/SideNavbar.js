@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { UserContext } from '../../Utils/UserContext';
 import axios from 'axios';
 import './SideNavbar.css';
@@ -43,6 +43,17 @@ function SideNavbar() {
     if (!fileTrees[repoFullName]) {
       fetchFileTree(repoFullName);
     }
+
+    setRepos((prevRepos) => {
+      const repoIndex = prevRepos.findIndex(
+        (repo) => `${repo.owner.login}/${repo.name}` === repoFullName
+      );
+      if (repoIndex === -1) return prevRepos;
+
+      const updatedRepos = [...prevRepos];
+      const [selectedRepo] = updatedRepos.splice(repoIndex, 1);
+      return [selectedRepo, ...updatedRepos];
+    });
 
     navigate(`/repositories/${repoFullName}`);
   };
@@ -108,7 +119,12 @@ function SideNavbar() {
                 {isExpanded && fileTrees[repoFullName] && (
                   <ul className="file-tree">
                     {fileTrees[repoFullName].map((item) => (
-                      <FileTreeNode key={item.path || item.name} item={item} />
+                      <FileTreeNode
+                        key={item.path || item.name}
+                        item={item}
+                        username={repo.owner.login} // Pass username
+                        repoName={repo.name} // Pass repoName
+                      />
                     ))}
                   </ul>
                 )}
@@ -120,8 +136,13 @@ function SideNavbar() {
   );
 }
 
-const FileTreeNode = ({ item }) => {
+const FileTreeNode = ({ item, username, repoName }) => {
+  const navigate = useNavigate();
   const [expanded, setExpanded] = useState(false);
+
+  const handleFileClick = () => {
+    navigate(`/repositories/${username}/${repoName}/blob/${item.path}`);
+  };
 
   if (item.type === 'dir') {
     return (
@@ -140,7 +161,12 @@ const FileTreeNode = ({ item }) => {
         {expanded && (
           <ul style={{ marginLeft: '10px' }}> {/* Reduced indentation */}
             {item.children?.map((child) => (
-              <FileTreeNode key={child.path || child.name} item={child} />
+              <FileTreeNode
+                key={child.path || child.name}
+                item={child}
+                username={username} // Pass username
+                repoName={repoName} // Pass repoName
+              />
             ))}
           </ul>
         )}
@@ -150,12 +176,12 @@ const FileTreeNode = ({ item }) => {
 
   return (
     <li>
-      <Link
-        to={`/repositories/${item.path}`}
-        style={{ textDecoration: 'none', color: 'blue', marginLeft: '20px' }}
+      <div
+        onClick={handleFileClick}
+        style={{ textDecoration: 'none', color: 'blue', marginLeft: '20px', cursor: 'pointer' }}
       >
         📄 {item.name}
-      </Link>
+      </div>
     </li>
   );
 };

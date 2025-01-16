@@ -8,19 +8,10 @@ import { coy } from 'react-syntax-highlighter/dist/esm/styles/prism';
 function CodeViewer() {
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
-  const { username, repoName } = useParams();
-  
-  const location = useLocation();
-  const [filePath, setFilePath] = useState('');
+  const { username, repoName, '*': filePath } = useParams(); // Use wildcard to capture file path
+
   const [fileContent, setFileContent] = useState('');
   const [language, setLanguage] = useState('plaintext');
-
-  useEffect(() => {
-    const splitted = location.pathname.split('/blob/');
-    if (splitted.length > 1) {
-      setFilePath(splitted[1]);
-    }
-  }, [location]);
 
   useEffect(() => {
     if (!user?.githubToken || !filePath) return;
