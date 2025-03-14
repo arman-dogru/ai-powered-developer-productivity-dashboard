@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { NavLink, useNavigate, useParams } from 'react-router-dom';
 import { UserContext } from '../../Utils/UserContext';
 import axios from 'axios';
 import './SideNavbar.css';
@@ -92,9 +92,12 @@ function SideNavbar() {
     <nav className="navbar">
       <ul className="nav-list">
         <li>
-          <Link to="/profile" className="nav-link profile-box">
+          <NavLink
+            to="/profile"
+            className={({ isActive }) => isActive ? 'nav-link active profile-btn' : 'nav-link profile-btn'}
+          >
             Profile
-          </Link>
+          </NavLink>
         </li>
         {repos
           .filter((repo) => !repo.archived) // Filter out archived repos
