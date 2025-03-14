@@ -62,7 +62,20 @@ function CodeViewer() {
   return (
     <div style={{ color: "white", margin: '20px' }}>
       <h2>Viewing File: {filePath}</h2>
-      <button onClick={handleBack} style={{ marginBottom: '10px' }}>
+      {/* Changed back button style */}
+      <button 
+        onClick={handleBack} 
+        style={{
+          marginBottom: '10px',
+          border: 'none',
+          borderRadius: '8px',
+          background: 'linear-gradient(135deg, #0f2027, #203a43, #2c5364)',
+          color: '#00d4ff',
+          padding: '10px 20px',
+          cursor: 'pointer',
+          boxShadow: '0 0 20px rgba(0, 255, 255, 0.5)'
+        }}
+      >
         Back to {repoName}
       </button>
       <SyntaxHighlighter language={language} style={twilight} showLineNumbers>

@@ -78,14 +78,6 @@ function RepoDetail() {
           ))}
         </ul>
       </div>
-      <div className="repo-section">
-        <h2 className="repo-section-title">File Structure</h2>
-        <ul className="repo-list">
-          {contents.map((item) => (
-            <FileTree key={item.sha} item={item} />
-          ))}
-        </ul>
-      </div>
       <div className="chat-section">
         <Chat repo={repo} /> {/* Chat */}
       </div>

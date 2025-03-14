@@ -3,40 +3,44 @@
 /* Main container for the dashboard */
 .dashboard-container {
     margin-bottom: 20px;
-    border: 1px solid #ccc;
+    /* Modified border and background for a futuristic look */
+    border: none;
     padding: 20px;
     border-radius: 8px;
-    background: rgb(10, 10, 10);
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-  }
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+}
   
-  /* Title styling */
-  .dashboard-title {
+/* Title styling */
+.dashboard-title {
     font-size: 20px;
     font-weight: bold;
     margin-bottom: 15px;
-    color: #e3e1e1;
-  }
+    /* Changed color to match futuristic theme */
+    color: #00d4ff;
+}
   
-  /* Paragraph styling for repository details */
-  .dashboard-detail {
+/* Paragraph styling for repository details */
+.dashboard-detail {
     margin-bottom: 10px;
     font-size: 16px;
-    color: #e0dddd;
-  }
+    /* Adjusted text color */
+    color: #e0e0e0;
+}
   
-  /* Strong text for labels */
-  .dashboard-detail strong {
+/* Strong text for labels */
+.dashboard-detail strong {
+    /* Retained strong text, ensuring a clear white contrast */
     color: #ffffff;
-  }
+}
   
-  /* Repository URL link styling */
-  .dashboard-link {
+/* Repository URL link styling */
+.dashboard-link {
     text-decoration: none;
     color: rgb(0, 213, 255);
     font-weight: bold;
-  }
+}
   
-  .dashboard-link:hover {
+.dashboard-link:hover {
     text-decoration: underline;
-  }
+}

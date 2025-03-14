@@ -1,7 +1,7 @@
 .chat-input-container {
   display: flex;
   border-top: none;
-  background: linear-gradient(135deg, #020024, #090979, #00d4ff);
+  background: linear-gradient(135deg, #00348e, #090979, #00d4ff);
   padding: 10px;
   border-radius: 8px;
   margin-top: 10px;
