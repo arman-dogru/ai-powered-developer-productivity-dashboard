@@ -1,169 +1,201 @@
 /* ChatHistory.css */
 
+/* New futuristic container style */
+.chat-container {
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+  margin: 20px 0;
+  transition: background 0.5s ease;
+}
+
 .chat-history {
     flex-grow: 1;
     padding: 10px;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
-  }
+    background-color: rgb(10, 10, 10);
+    color: #fff;
+}
   
-  .message-container {
+.message-container {
     display: flex;
     margin-bottom: 10px;
-  }
-  
-  .message-bubble {
+}
+
+.message-container.user {
+    justify-content: flex-end;
+}
+
+.message-container.assistant {
+    justify-content: flex-start;
+}
+
+.message-bubble {
     max-width: 60%;
     padding: 10px;
     border-radius: 10px;
     word-wrap: break-word;
-  }
-  
-  /* Markdown Styles */
-  .markdown-h1 {
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+    transition: box-shadow 0.3s ease;
+}
+
+/* Dark mode color scheme */
+.message-bubble.user-bubble {
+    background-color: #005f73;
+    color: #fff;
+}
+
+.message-bubble.assistant-bubble {
+    background-color: #0a9396;
+    color: #fff;
+}
+
+/* Markdown Styles */
+.markdown-h1 {
     font-size: 24px;
     margin: 10px 0;
     font-weight: bold;
-  }
-  
-  .markdown-h2 {
+}
+
+.markdown-h2 {
     font-size: 22px;
     margin: 9px 0;
     font-weight: bold;
-  }
-  
-  .markdown-h3 {
+}
+
+.markdown-h3 {
     font-size: 20px;
     margin: 8px 0;
     font-weight: bold;
-  }
-  
-  .markdown-h4 {
+}
+
+.markdown-h4 {
     font-size: 18px;
     margin: 7px 0;
     font-weight: bold;
-  }
-  
-  .markdown-h5 {
+}
+
+.markdown-h5 {
     font-size: 16px;
     margin: 6px 0;
     font-weight: bold;
-  }
-  
-  .markdown-h6 {
+}
+
+.markdown-h6 {
     font-size: 14px;
     margin: 5px 0;
     font-weight: bold;
-  }
-  
-  .markdown-paragraph {
+}
+
+.markdown-paragraph {
     margin: 5px 0;
-  }
-  
-  .markdown-bold {
+}
+
+.markdown-bold {
     font-weight: bold;
-  }
-  
-  .markdown-italic {
+}
+
+.markdown-italic {
     font-style: italic;
-  }
-  
-  .markdown-strikethrough {
+}
+
+.markdown-strikethrough {
     text-decoration: line-through;
-  }
-  
-  .markdown-blockquote {
+}
+
+.markdown-blockquote {
     border-left: 4px solid #ccc;
     padding-left: 10px;
     color: #666;
     margin: 5px 0;
     font-style: italic;
-  }
-  
-  .markdown-ul {
+}
+
+.markdown-ul {
     padding-left: 20px;
     margin: 5px 0;
     list-style-type: disc;
-  }
-  
-  .markdown-ol {
+}
+
+.markdown-ol {
     padding-left: 20px;
     margin: 5px 0;
     list-style-type: decimal;
-  }
-  
-  .markdown-li {
+}
+
+.markdown-li {
     margin: 3px 0;
-  }
-  
-  .markdown-code {
+}
+
+.markdown-code {
     background-color: #f5f5f5;
     padding: 3px;
     border-radius: 4px;
     overflow-x: auto;
     font-family: monospace;
     white-space: pre-wrap;
-  }
-  
-  .markdown-inline-code {
+}
+
+.markdown-inline-code {
     background-color: #f5f5f5;
     padding: 2px 4px;
     border-radius: 4px;
     font-family: monospace;
-  }
-  
-  .markdown-pre {
+}
+
+.markdown-pre {
     background-color: #f5f5f5;
     padding: 10px;
     border-radius: 4px;
     overflow-x: auto;
-  }
-  
-  .markdown-link {
+}
+
+.markdown-link {
     color: #0645AD;
     text-decoration: underline;
-  }
-  
-  .markdown-image {
+}
+
+.markdown-image {
     max-width: 100%;
     height: auto;
     margin: 10px 0;
-  }
-  
-  .markdown-horizontal-rule {
+}
+
+.markdown-horizontal-rule {
     border: none;
     border-top: 1px solid #ccc;
     margin: 20px 0;
-  }
-  
-  .markdown-table {
+}
+
+.markdown-table {
     border-collapse: collapse;
     width: 100%;
     margin: 10px 0;
-  }
-  
-  .markdown-table-head {
+}
+
+.markdown-table-head {
     /* Additional styles if needed */
-  }
-  
-  .markdown-table-body {
+}
+
+.markdown-table-body {
     /* Additional styles if needed */
-  }
-  
-  .markdown-table-row {
+}
+
+.markdown-table-row {
     /* Additional styles if needed */
-  }
-  
-  .markdown-table-header-cell {
+}
+
+.markdown-table-header-cell {
     border: 1px solid #ddd;
     padding: 8px;
     font-weight: bold;
     background-color: #f2f2f2;
-  }
-  
-  .markdown-table-cell {
+}
+
+.markdown-table-cell {
     border: 1px solid #ddd;
     padding: 8px;
-  }
-  
+}

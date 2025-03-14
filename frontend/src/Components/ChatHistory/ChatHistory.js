@@ -12,17 +12,9 @@ function ChatHistory({ messages }) {
       {messages.map((msg, index) => (
         <div
           key={index}
-          className="message-container"
-          style={{
-            justifyContent: msg.sender === 'user' ? 'flex-end' : 'flex-start',
-          }}
+          className={`message-container ${msg.sender === 'user' ? 'user' : 'assistant'}`}
         >
-          <div
-            className="message-bubble"
-            style={{
-              backgroundColor: msg.sender === 'user' ? '#DCF8C6' : '#ECECEC',
-            }}
-          >
+          <div className={`message-bubble ${msg.sender === 'user' ? 'user-bubble' : 'assistant-bubble'}`}>
             {msg.sender === 'assistant' ? (
               <ReactMarkdown
                 children={msg.text}

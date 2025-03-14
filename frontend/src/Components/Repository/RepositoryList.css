@@ -2,32 +2,32 @@
 
 .repositories-container {
     margin: 20px;
-  }
+    background: rgb(10, 10, 10);
+    color: #fff;
+}
   
-  .repositories-title {
+.repositories-title {
     font-size: 24px;
     font-weight: bold;
-    margin-top: -1000px;
-    margin-left: 600px;
-  }
+    margin: 20px;
+}
   
-  .repositories-list {
+.repositories-list {
     list-style: none;
     padding: 0;
-  }
+}
   
-  .repositories-list li {
+.repositories-list li {
     margin-bottom: 10px;
     margin-left: 600px;
-  }
+}
   
-  .repositories-link {
+.repositories-link {
     text-decoration: none;
-    color: rgb(26, 26, 198);
+    color: rgb(26, 149, 198);
     font-weight: bold;
-  }
+}
   
-  .repositories-link:hover {
+.repositories-link:hover {
     text-decoration: underline;
-  }
-  
+}

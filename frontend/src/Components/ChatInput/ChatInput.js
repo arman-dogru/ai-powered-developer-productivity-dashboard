@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './ChatInput.css'; // import external CSS
 
 function ChatInput({ sendMessage }) {
   const [input, setInput] = useState('');
@@ -18,38 +19,20 @@ function ChatInput({ sendMessage }) {
   };
 
   return (
-    <div style={styles.container}>
+    <div className="chat-input-container">
       <textarea
-        style={styles.textarea}
+        className="chat-input-textarea"
         rows={3}
         placeholder="Type a message"
         value={input}
         onChange={(e) => setInput(e.target.value)}
         onKeyDown={handleKeyPress}
       />
-      <button style={styles.button} onClick={handleSend}>
+      <button className="chat-input-button" onClick={handleSend}>
         Send
       </button>
     </div>
   );
 }
-
-const styles = {
-  container: {
-    display: 'flex',
-    borderTop: '1px solid #ccc',
-  },
-  textarea: {
-    flex: 1,
-    resize: 'none',
-    padding: '10px',
-    fontSize: '16px',
-  },
-  button: {
-    width: '80px',
-    fontSize: '16px',
-    cursor: 'pointer',
-  },
-};
 
 export default ChatInput;

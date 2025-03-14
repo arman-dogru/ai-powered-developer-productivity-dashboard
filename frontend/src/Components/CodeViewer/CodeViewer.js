@@ -1,14 +1,14 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { useParams, useLocation, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { UserContext } from '../../Utils/UserContext';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { coy } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import { twilight } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 function CodeViewer() {
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
-  const { username, repoName, '*': filePath } = useParams(); // Use wildcard to capture file path
+  const { username, repoName, '*': filePath } = useParams();
 
   const [fileContent, setFileContent] = useState('');
   const [language, setLanguage] = useState('plaintext');
@@ -60,12 +60,12 @@ function CodeViewer() {
   };
 
   return (
-    <div style={{ margin: '20px' }}>
+    <div style={{ color: "white", margin: '20px' }}>
       <h2>Viewing File: {filePath}</h2>
       <button onClick={handleBack} style={{ marginBottom: '10px' }}>
         Back to {repoName}
       </button>
-      <SyntaxHighlighter language={language} style={coy} showLineNumbers>
+      <SyntaxHighlighter language={language} style={twilight} showLineNumbers>
         {fileContent}
       </SyntaxHighlighter>
     </div>

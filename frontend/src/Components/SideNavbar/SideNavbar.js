@@ -1,5 +1,7 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { NavLink, useNavigate, useParams } from 'react-router-dom';
+// SideNavbar.js
+
+import React, { useContext, useEffect, useRef, useState } from 'react';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { UserContext } from '../../Utils/UserContext';
 import axios from 'axios';
 import './SideNavbar.css';
@@ -8,7 +10,12 @@ function SideNavbar() {
   const { user } = useContext(UserContext);
   const [repos, setRepos] = useState([]);
   const [fileTrees, setFileTrees] = useState({});
-  const [expandedRepos, setExpandedRepos] = useState({}); // Track expanded repos
+  const [expandedRepos, setExpandedRepos] = useState({});
+  // Define two width values: default and expanded
+  const DEFAULT_WIDTH = 250;
+  const EXPANDED_WIDTH = 500;
+  const [navWidth, setNavWidth] = useState(DEFAULT_WIDTH);
+  const navRef = useRef(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -27,6 +34,13 @@ function SideNavbar() {
 
     fetchRepositories();
   }, [user]);
+
+  // Toggle the sidebar width on click
+  const toggleWidth = () => {
+    setNavWidth((prevWidth) =>
+      prevWidth === DEFAULT_WIDTH ? EXPANDED_WIDTH : DEFAULT_WIDTH
+    );
+  };
 
   const toggleRepo = (repoFullName) => {
     setExpandedRepos((prev) => {
@@ -89,19 +103,20 @@ function SideNavbar() {
   };
 
   return (
-    <nav className="navbar">
-      <ul className="nav-list">
-        <li>
-          <NavLink
-            to="/profile"
-            className={({ isActive }) => isActive ? 'nav-link active profile-btn' : 'nav-link profile-btn'}
-          >
-            Profile
-          </NavLink>
-        </li>
-        {repos
-          .filter((repo) => !repo.archived) // Filter out archived repos
-          .map((repo) => {
+    <div ref={navRef} className="side-navbar-container" style={{ width: navWidth }}>
+      <nav className="navbar">
+        <ul className="nav-list">
+          <li>
+            <NavLink
+              to="/profile"
+              className={({ isActive }) =>
+                isActive ? 'nav-link active profile-btn' : 'nav-link profile-btn'
+              }
+            >
+              Profile
+            </NavLink>
+          </li>
+          {repos.filter((repo) => !repo.archived).map((repo) => {
             const repoFullName = `${repo.owner.login}/${repo.name}`;
             const isExpanded = expandedRepos[repoFullName];
 
@@ -125,8 +140,8 @@ function SideNavbar() {
                       <FileTreeNode
                         key={item.path || item.name}
                         item={item}
-                        username={repo.owner.login} // Pass username
-                        repoName={repo.name} // Pass repoName
+                        username={repo.owner.login}
+                        repoName={repo.name}
                       />
                     ))}
                   </ul>
@@ -134,8 +149,13 @@ function SideNavbar() {
               </li>
             );
           })}
-      </ul>
-    </nav>
+        </ul>
+      </nav>
+      {/* Toggle handle for expanding/collapsing the sidebar */}
+      <div className="toggle-handle" onClick={toggleWidth}>
+        {navWidth === DEFAULT_WIDTH ? '>' : '<'}
+      </div>
+    </div>
   );
 }
 
@@ -154,7 +174,7 @@ const FileTreeNode = ({ item, username, repoName }) => {
           onClick={() => setExpanded((prev) => !prev)}
           style={{
             cursor: 'pointer',
-            marginLeft: '10px', // Reduced indentation
+            marginLeft: '10px',
             display: 'flex',
             alignItems: 'center',
           }}
@@ -162,13 +182,13 @@ const FileTreeNode = ({ item, username, repoName }) => {
           {expanded ? '▼' : '▶'} {item.name}
         </div>
         {expanded && (
-          <ul style={{ marginLeft: '10px' }}> {/* Reduced indentation */}
+          <ul style={{ marginLeft: '5px', listStyle: 'none' }}>
             {item.children?.map((child) => (
               <FileTreeNode
                 key={child.path || child.name}
                 item={child}
-                username={username} // Pass username
-                repoName={repoName} // Pass repoName
+                username={username}
+                repoName={repoName}
               />
             ))}
           </ul>
@@ -181,7 +201,7 @@ const FileTreeNode = ({ item, username, repoName }) => {
     <li>
       <div
         onClick={handleFileClick}
-        style={{ textDecoration: 'none', color: 'blue', marginLeft: '20px', cursor: 'pointer' }}
+        style={{ textDecoration: 'none', marginLeft: '20px', cursor: 'pointer' }}
       >
         📄 {item.name}
       </div>

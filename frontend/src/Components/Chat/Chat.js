@@ -67,9 +67,8 @@ function Chat({ repo }) {
   };
 
   return (
-    <div style={{ maxWidth: '800px', margin: '0 auto', padding: '10px' }}>
+    <div className="chat-container">
       <h2>Gemini AI Chat</h2>
-
       <ChatHistory messages={messages} />
       <ChatInput sendMessage={sendMessage} />
     </div>

@@ -29,10 +29,10 @@ function FileTree({ item }) {
     return (
       <li>
         <span onClick={toggleExpand} style={{ cursor: 'pointer' }}>
-          {expanded ? '📂' : '📁'} {item.name}
+          {item.name}
         </span>
         {expanded && children.length > 0 && (
-          <ul>
+          <ul style={{ listStyleType: 'none' }}>
             {children.map((child) => (
               <FileTree key={child.sha} item={child} />
             ))}
@@ -48,7 +48,7 @@ function FileTree({ item }) {
 
   return (
     <li>
-      <Link to={fileViewerPath} style={{ textDecoration: 'none', color: 'blue' }}>
+      <Link to={fileViewerPath} style={{ textDecoration: 'none', color: 'inherit' }}>
         {item.name}
       </Link>
     </li>
