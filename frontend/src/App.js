@@ -13,6 +13,19 @@ import CodeViewer from './Components/CodeViewer/CodeViewer'; // Import CodeViewe
 
 import GeminiChat from './Components/Chat/Chat'; // import your new Gemini page
 
+/**
+ * Main application component responsible for rendering different parts of the UI based on user's authentication status.
+ * @example
+ * App()
+ * Renders either the login page or the application's main content based on user's login status.
+ * @param {none} None - This component does not require any external parameters.
+ * @returns {JSX.Element} Renders the application layout based on the routes configured.
+ * @description
+ *   - Utilizes `useContext` to access and set user information through `UserContext`.
+ *   - Employs `useEffect` to fetch user data upon component mount, ensuring credentials are used.
+ *   - Conditionally renders components based on user authentication state.
+ *   - Configures routing for various application paths, including a fallback for unmatched routes.
+ */
 function App() {
   const { user, setUser } = useContext(UserContext);
 
